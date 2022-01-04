@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const db = require("../models");
 
-mongoose.connect("mongodb://localhost/workout", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ccbox", {
 	useNewUrlParser: true,
-	useFindAndModify: false,
 	useUnifiedTopology: true,
+	useCreateIndex: true,
+	useFindAndModify: false,
 });
 
 const workoutSeed = [
@@ -124,7 +125,7 @@ const workoutSeed = [
 		],
 	},
 ];
-
+console.log("db", db.Workout);
 db.Workout.deleteMany({})
 	.then(() => db.Workout.collection.insertMany(workoutSeed))
 	.then((data) => {
